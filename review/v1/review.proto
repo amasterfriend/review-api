@@ -27,7 +27,13 @@ service Review {
 	// C端查看userID下所有评价
 	rpc ListReviewByUserID (ListReviewByUserIDRequest) returns (ListReviewByUserIDReply) {
 		option (google.api.http) = {
-			get: "/v1/{userID}/reviews",
+			get: "/v1/review/user/{userID}",
+		};
+	}
+	// C端查看storeID下所有评价
+	rpc ListReviewByStoreID (ListReviewByStoreIDRequest) returns (ListReviewByStoreIDReply) {
+		option (google.api.http) = {
+			get: "/v1/review/store/{storeID}",
 		};
 	}
 	// B端回复评价
@@ -98,6 +104,18 @@ message ListReviewByUserIDRequest {
 
 // C端查看userID下所有评价的响应
 message ListReviewByUserIDReply {
+	repeated ReviewInfo list = 1;
+}
+
+// C端查看storeID下所有评价的请求
+message ListReviewByStoreIDRequest {
+	int64 storeID = 1 [(validate.rules).int64 = {gt: 0}];
+	int32 page = 2 [(validate.rules).int32 = {gt: 0}];
+	int32 size = 3 [(validate.rules).int32 = {gt: 0, lt: 100}];
+}
+
+// C端查看storeID下所有评价的响应
+message ListReviewByStoreIDReply {
 	repeated ReviewInfo list = 1;
 }
 
