@@ -16,6 +16,8 @@ enum ErrorReason {
   // 为某个枚举单独设置错误码
   NEED_LOGIN = 0 [(errors.code) = 401];
   DB_FAILED = 1 [(errors.code) = 500];
+  RATE_LIMITED = 2 [(errors.code) = 429];
+  DEPENDENCY_DEGRADED = 3 [(errors.code) = 503];
 
   ORDER_REVIEWED = 100 [(errors.code) = 400];
   REVIEW_REPLIED = 101 [(errors.code) = 400];

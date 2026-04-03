@@ -37,6 +37,30 @@ func ErrorDbFailed(format string, args ...interface{}) *errors.Error {
 	return errors.New(500, ErrorReason_DB_FAILED.String(), fmt.Sprintf(format, args...))
 }
 
+func IsRateLimited(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_RATE_LIMITED.String() && e.Code == 429
+}
+
+func ErrorRateLimited(format string, args ...interface{}) *errors.Error {
+	return errors.New(429, ErrorReason_RATE_LIMITED.String(), fmt.Sprintf(format, args...))
+}
+
+func IsDependencyDegraded(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_DEPENDENCY_DEGRADED.String() && e.Code == 503
+}
+
+func ErrorDependencyDegraded(format string, args ...interface{}) *errors.Error {
+	return errors.New(503, ErrorReason_DEPENDENCY_DEGRADED.String(), fmt.Sprintf(format, args...))
+}
+
 func IsOrderReviewed(err error) bool {
 	if err == nil {
 		return false
